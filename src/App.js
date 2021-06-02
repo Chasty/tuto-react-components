@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css';
 
 //Lyfecycle
@@ -97,13 +97,109 @@ class MyApp extends React.Component {
     } 
 }
 
-function App() {
-  return (
+class HolaPeople extends React.Component {
+  render() {
+    return(
+      <div>
+        <span>Hola {this.props.nombre} mi edad es {this.props.edad}</span>
+      </div>
+    )
+  }
+}
+
+function HolaPeopleFun(props) {
+  return(
+    <div>
+      <span>Hola soy {props.nombre} mi edad es {props.edad}</span>
+    </div>
+  )
+}
+
+const  UtilFun = (props) => {
+    const { util } = props 
+    return(
+      <tr>
+          <th style={{ border: '1px solid gray' }}>{util.id}</th>
+          <th style={{ border: '1px solid gray' }}>{util.name}</th>
+          <th style={{ border: '1px solid gray' }}>{util.price}</th>
+      </tr>
+    )
+}
+
+
+const INITIAL_UTILES = [
+  {
+    id: 1,
+    name: 'Lapiz',
+    price: 10.5
+  },
+  {
+    id: 2,
+    name: 'Borrador',
+    price: 5
+  },
+  {
+    id: 3,
+    name: 'Cuaderno',
+    price: 1
+  }
+]
+
+const INITIAL_COUNT = 0
+
+
+function MyAppFun()  {
+  const [count, setCount] = useState(INITIAL_COUNT)
+  const [utiles, setUtiles] = useState(INITIAL_UTILES)
+
+  const onIncrementClicked = ()=> {
+    setCount(count + 1)
+    const lastUtil = utiles[2]
+    setUtiles([...utiles, lastUtil])
+  }
+
+  const onDecrementClicked = () => {
+    setCount(count - 1)
+  }
+
+  return(
       <div>
         <h1>Hola Gente Function Component</h1>
+        <span>{count}</span>
+        <p/>
+        <button onClick={()=>onIncrementClicked()}>Increase</button>
+        <button onClick={()=>onDecrementClicked()}>Decrease</button>
+        <table >
+            <tr >
+              <th style={{ border: '1px solid gray' }}>ID</th>
+              <th style={{ border: '1px solid gray' }}>Name</th>
+              <th style={{ border: '1px solid gray' }}>Price</th>
+            </tr>
+           {
+            utiles.map((obj) => (
+              <Util util={obj} />
+            ))
+           } 
+          </table>
+      </div>
+  )
+}
+
+function App() {
+  const obj = {
+    id: 1,
+    name: "Lapizito",
+    price: 53.3
+  }
+  return (
+      <div>
+        {/*<HolaPeople nombre="Maxo" edad={30}/>*/}
+        <HolaPeopleFun nombre="Willy" edad={100} />
+        <MyAppFun />
         <button>Touch me</button>
+        <UtilFun util={obj}/>
       </div>
   );
 }
 
-export default MyApp;
+export default App;
